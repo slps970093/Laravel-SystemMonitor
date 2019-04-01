@@ -38,20 +38,31 @@ class DiskFreeMonitor
          return is_array($diskInfo) ? $diskInfo : [];
     }
 
-    private function getDiskInfo ( $mount , $info ) {
+    public function getMount() {
+        if( !is_array($this->config) ){
+            throw new ConfigNotFoundException('can not find disk config');
+        }
+        foreach ($this->config as $mount => $info ) {
+            $diskMount[] = $mount;
+        }
+        return is_array($diskMount) ? $diskMount : [];
+    }
 
+    private function getDiskInfo ( $mount , $info ) {
         $minCapacity = ( is_numeric($info[ self::DiskFree_MinCapacity ])) ? $info[ self::DiskFree_MinCapacity ] : false;
         if ( $minCapacity === false ) {
             $diskInfo = [
                 'free' => number_format(self::conventByteToGb( disk_free_space($mount)),2),
-                'total' => number_format(self::conventByteToGb(disk_total_space($mount)),2)
+                'total' => number_format(self::conventByteToGb(disk_total_space($mount)),2),
+                'mount' => $mount
             ];
         } else {
             $status = ( self::conventByteToGb(disk_free_space($mount)) < $info[ self::DiskFree_MinCapacity ]) ? self::DiskStatus_Warning : self::DiskStatus_Normal;
             $diskInfo = [
                 'status' => $status,
-                'free' => number_format(self::conventByteToGb( disk_free_space($mount)),2),
-                'total' => number_format(self::conventByteToGb(disk_total_space($mount)),2)
+                'free' => number_format(self::conventByteToGb(disk_free_space($mount)),2),
+                'total' => number_format(self::conventByteToGb(disk_total_space($mount)),2),
+                'mount' => $mount
             ];
         }
         return $diskInfo;
