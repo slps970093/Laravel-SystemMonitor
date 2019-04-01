@@ -13,19 +13,19 @@ class DiskFreeMonitorTest extends TestCase
 {
     public function test_getinfo() {
         if ( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ) {
-             $config = array (
-                 'C:' => array(
+             $config = [
+                 'C:' => [
                      'alias' => 'System Device ',
                      'min_capacity' => 5
-                 )
-             );
+                 ]
+             ];
         } else {
-            $config = array (
-                '/' => array(
+            $config = [
+                '/' => [
                     'alias' => 'System Device ',
                     'min_capacity' => 5
-                )
-            );
+                ]
+            ];
         }
         $diskFree = new DiskFreeMonitor($config);
         $data = $diskFree->getInfo();
