@@ -1,4 +1,7 @@
 language: php
+env:
+  - CODECOV_TOKEN="93cc1dcf-2f91-406f-a079-5b678e9581e6"
+
 
 php:
   - 7.1
@@ -9,7 +12,7 @@ before_script:
   - composer update
 
 
-script: vendor/bin/phpunit -c phpunit.xml --coverage-text
+script: vendor/bin/phpunit -c phpunit.xml --coverage-text --coverage-clover=coverage.xml
 
 notifications:
   email:
@@ -17,3 +20,7 @@ notifications:
       - slps970093@gmail.com
     on_success: always
     on_failure: always
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
