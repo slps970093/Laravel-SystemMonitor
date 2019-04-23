@@ -9,20 +9,19 @@
 namespace LittleChou\SystemMonitor\Monitor\SmtpCheck;
 
 
-class SmtpCheck
-{
+class SmtpCheck{
     public $config;
 
-    public function setConfig ($config ) {
+    public function setConfig($config){
         $this->config = $config;
     }
 
-    public function getConfig() {
+    public function getConfig(){
         return $this->config;
     }
 
-    public function getStatus () {
-        foreach ( $this->config as $row ) {
+    public function getStatus(){
+        foreach ( $this->config as $row ){
             $alias = (empty($row['alias'])) ? $row['host'] : $row['alias'];
             $statusList[$alias] = self::checkOnline($row['host'],is_numeric($row['port']) ? $row['port'] : 80);
         }
@@ -34,7 +33,7 @@ class SmtpCheck
      * @param int $port
      * @return bool
      */
-    private function checkOnline ( $host , $port = 80) {
+    private function checkOnline($host,$port = 80){
         $socket = fsockopen($host,$port);
         $status = false;
         if ($socket) {

@@ -11,8 +11,7 @@ namespace LittleChou\SystemMonitor\Monitor\Disk;
 
 use LittleChou\SystemMonitor\Monitor\Disk\Exceptions\ConfigNotFoundException;
 
-class DiskFreeMonitor
-{
+class DiskFreeMonitor{
     private $config;
 
     const DiskStatus_Warning = 'warning';
@@ -22,12 +21,11 @@ class DiskFreeMonitor
     const DiskFree_MountAlias = 'alias';
 
 
-    public function __construct( $config )
-    {
+    public function __construct( $config ){
         $this->config = $config;
     }
 
-    public function getInfo() {
+    public function getInfo(){
          if( !is_array($this->config) ){
             throw new ConfigNotFoundException('can not find disk config');
          }
@@ -38,7 +36,7 @@ class DiskFreeMonitor
          return is_array($diskInfo) ? $diskInfo : [];
     }
 
-    public function getMount() {
+    public function getMount(){
         if( !is_array($this->config) ){
             throw new ConfigNotFoundException('can not find disk config');
         }
@@ -48,7 +46,7 @@ class DiskFreeMonitor
         return is_array($diskMount) ? $diskMount : [];
     }
 
-    private function getDiskInfo ( $mount , $info ) {
+    private function getDiskInfo($mount,$info){
         $minCapacity = ( is_numeric($info[ self::DiskFree_MinCapacity ])) ? $info[ self::DiskFree_MinCapacity ] : false;
         if ( $minCapacity === false ) {
             $diskInfo = [
@@ -70,7 +68,7 @@ class DiskFreeMonitor
 
 
 
-    private function conventByteToGb( $byte ){
+    private function conventByteToGb($byte){
         return $byte / 1024 / 1024 / 1024;
     }
 }
